@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">TutorialOne</string>
 
-    <string name="hello_world">Testando</string>
+    <string name="textview">Testando</string>
     <string name="action_settings">Settings</string>
+    <string name="button">Update The TextView</string>
+    <string name="hint">A Name</string>
 </resources>
