@@ -1,6 +1,7 @@
 package com.example.alcampelo.tutorialone;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,9 +10,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,6 +51,22 @@ public class MainActivity extends ActionBarActivity implements TextView.OnClickL
         mainButton.setOnClickListener(this);
 
         mainEditText = (EditText) findViewById(R.id.main_edittext);
+        mainEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    // hide virtual keyboard
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mainEditText.getWindowToken(),
+                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+
+                    updateText();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         mainListView = (ListView) findViewById(R.id.main_listview);
 
@@ -155,8 +175,7 @@ public class MainActivity extends ActionBarActivity implements TextView.OnClickL
         }
     }
 
-    @Override
-    public void onClick(View v)
+    public void updateText()
     {
         mainTextView.setText(mainEditText.getText().toString()
                 + " is learning Android development!");
@@ -165,6 +184,12 @@ public class MainActivity extends ActionBarActivity implements TextView.OnClickL
         // 6. The text you'd like to share has changed,
         // and you need to update
         setShareIntent();
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        updateText();
     }
 
     @Override
