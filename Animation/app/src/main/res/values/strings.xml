@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Animation</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Game</string>
+    <string name="rotate_button">Rotate</string>
+    <string name="group_button">Group</string>
+    <string name="fade_button">Fade</string>
+    <string name="animation_button">Animation</string>
+    <string name="text">Large Text</string>
+    <string name="image_descr">Image in animation</string>
+    <string name="group2_button">Group 2</string>
+    <string name="zoomin_button">ZoomIn</string>
+</resources>
