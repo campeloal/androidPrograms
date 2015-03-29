@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.Paint;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 public class AnimationActivity extends Activity {
 
 
+    AnimationDrawable hdAnimation;
+
     /** Called when the activity is first created. */
 
     @Override
@@ -22,11 +25,28 @@ public class AnimationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animation);
 
+        prepareHumptyDumptyAnimation();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        hdAnimation.start();
+    }
+
+    public void prepareHumptyDumptyAnimation()
+    {
+        ImageView hd = (ImageView)findViewById(R.id.hd);
+        hd.setImageBitmap(null);
+        hd.setBackgroundResource(R.drawable.hd_animation);
+
+        // Get the background, which has been compiled to an AnimationDrawable object.
+        hdAnimation = (AnimationDrawable) hd.getBackground();
     }
 
     public void startAnimation(View view) {
         float dest;
-        final ImageView aniView = (ImageView) findViewById(R.id.imageView1);
+        final ImageView aniView = (ImageView) findViewById(R.id.hd);
         final TextView aniTextView = (TextView) findViewById(R.id.textView1);
         switch (view.getId()) {
 

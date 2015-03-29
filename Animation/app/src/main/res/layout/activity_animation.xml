@@ -83,21 +83,21 @@
 
     </LinearLayout>
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/hd"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:contentDescription="@string/image_descr"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/hd_1" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView1"
-        android:layout_alignRight="@+id/imageView1"
-        android:layout_alignEnd="@+id/imageView1"
+        android:layout_above="@+id/hd"
+        android:layout_alignRight="@+id/hd"
+        android:layout_alignEnd="@+id/hd"
         android:layout_marginBottom="30dp"
         android:text= "@string/text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
