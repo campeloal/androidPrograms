@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -29,7 +30,8 @@ public class ViewAnimationActivity extends ActionBarActivity implements AdapterV
 
         createItems();
 
-        itemAdapter = new ItemAdapter(this,itemList);
+        Typeface font = Typeface.createFromAsset(getAssets(), "Snoochie.otf");
+        itemAdapter = new ItemAdapter(this,itemList,font);
 
         // Set the ListView to use the ArrayAdapter
         mainListView = (ListView) findViewById(R.id.main_listview);

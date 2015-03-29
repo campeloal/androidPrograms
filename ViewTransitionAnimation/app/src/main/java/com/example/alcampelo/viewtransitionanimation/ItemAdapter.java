@@ -1,6 +1,7 @@
 package com.example.alcampelo.viewtransitionanimation;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +20,17 @@ import java.util.ArrayList;
 public class ItemAdapter extends ArrayAdapter<Item>
 {
     private Context context;
+    private Typeface font;
 
     private static class ViewHolder
     {
         TextView name;
         ImageView image;
     }
-    public ItemAdapter(Context context, ArrayList<Item> items) {
+    public ItemAdapter(Context context, ArrayList<Item> items,Typeface tf) {
         super(context, 0, items);
         this.context = context;
+        this.font = tf;
     }
 
     @Override
@@ -42,6 +45,7 @@ public class ItemAdapter extends ArrayAdapter<Item>
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
             viewHolder.name = (TextView) convertView.findViewById(R.id.item);
             viewHolder.image = (ImageView) convertView.findViewById(R.id.img_thumbnail);
+            viewHolder.name.setTypeface(this.font);
             convertView.setTag(viewHolder);
         }
         else

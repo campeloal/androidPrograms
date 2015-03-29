@@ -3,6 +3,7 @@ package com.example.alcampelo.viewtransitionanimation;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.ActivityOptions;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -27,6 +28,9 @@ public class DetailActivity extends ActionBarActivity {
 
         imageView = (ImageView) findViewById(R.id.detail_image);
         textView = (TextView) findViewById(R.id.detail_text);
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "Snoochie.otf");
+        textView.setTypeface(font);
 
         String text = this.getIntent().getExtras().getString("text");
         int image = this.getIntent().getExtras().getInt("image");
