@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
@@ -39,6 +40,10 @@ public class DetailActivity extends ActionBarActivity {
         textView.setText(text);
 
         prepareHumptyDumptyAnimation();
+
+        Toolbar actionToolbar = (Toolbar) findViewById(R.id.toolbar);
+        actionToolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        setSupportActionBar(actionToolbar);
     }
 
     public void prepareHumptyDumptyAnimation()

@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,10 @@ public class ViewAnimationActivity extends ActionBarActivity implements AdapterV
         mainListView = (ListView) findViewById(R.id.main_listview);
         mainListView.setAdapter(itemAdapter);
         mainListView.setOnItemClickListener(this);
+
+        Toolbar actionToolbar = (Toolbar) findViewById(R.id.toolbar);
+        actionToolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        setSupportActionBar(actionToolbar);
     }
 
     @Override

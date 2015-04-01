@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowEnterTransition">@transition/explode</item>
@@ -19,18 +19,15 @@
     </style>
 
     <style name="RedBar" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:background">@color/light_red</item>
-        <item name="android:icon">@drawable/hd_1</item>
+        <item name="background">@color/light_red</item>
     </style>
 
-    <style name="LightBlueTheme" parent="Theme.AppCompat.Light">
+    <style name="LightBlueTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowEnterTransition">@transition/explode</item>
         <item name="android:windowExitTransition">@transition/explode</item>
         <item name="android:windowBackground">@color/light_blue</item>
         <item name="android:colorBackground">@color/light_blue</item>
-        <item name="android:windowTitleBackgroundStyle">@style/RedBar</item>
-        <item name="android:actionBarStyle">@style/RedBar</item>
 
     </style>
 
