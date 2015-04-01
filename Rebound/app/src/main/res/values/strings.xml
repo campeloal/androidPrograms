@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Rebound</string>
+
+    <string name="hello_world">Rebound animations</string>
+    <string name="action_settings">Settings</string>
+    <string name="img_descr">HD</string>
+    <string name="scale">Scale</string>
+    <string name="move">Move</string>
+</resources>
