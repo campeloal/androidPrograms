@@ -1,5 +1,6 @@
 package com.example.alcampelo.swipeviews;
 
+import android.app.ProgressDialog;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 
 public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
@@ -20,6 +23,8 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
     private MediaPlayer mp = null;
     private boolean isPlayingAudio = false;
     private boolean isStreamConfigured = false;
+    private boolean freezePlayButton = false;
+    ProgressDialog mDialog;
     ImageButton playPause;
 
     @Override
@@ -41,19 +46,53 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
 
         playPause = (ImageButton) findViewById(R.id.play);
 
+        detectPhoneCall();
+
+        configureProgressDialog();
     }
 
-    @Override
-    public void onPause(){
-        if (mp != null) {
+    public void configureProgressDialog(){
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage("Sintonizando na rádio");
+        mDialog.setCancelable(false);
+    }
+
+    public void detectPhoneCall(){
+        PhoneStateListener phoneStateListener = new PhoneStateListener() {
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                if (state == TelephonyManager.CALL_STATE_RINGING) {
+                    pauseAudio();
+                } else if(state == TelephonyManager.CALL_STATE_IDLE) {
+                    playAudio();
+                } /*else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                    //A call is dialing, active or on hold
+                }*/
+                super.onCallStateChanged(state, incomingNumber);
+            }
+        };
+        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if(mgr != null) {
+            mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        }
+    }
+
+    public void pauseAudio(){
+         if (mp != null) {
             isPlayingAudio = false;
             mp.pause();
             playPause.setImageResource(R.drawable.play);
         }
-        super.onPause();
 
     }
 
+    public void playAudio(){
+        if (mp != null) {
+            isPlayingAudio = true;
+            mp.start();
+            playPause.setImageResource(R.drawable.pause);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,45 +118,44 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
 
     public void playOrPause(View view) {
 
-        if (isStreamConfigured == false) {
+        if(!freezePlayButton) {
+            if (!isStreamConfigured) {
 
-            Uri myUri = Uri.parse(getResources().getString(R.string.url));
-            try {
-                if (mp == null) {
-                    this.mp = new MediaPlayer();
-                } else {
-                    mp.stop();
-                    mp.reset();
+                mDialog.show();
+                Uri myUri = Uri.parse(getResources().getString(R.string.url));
+                try {
+                    if (mp == null) {
+                        this.mp = new MediaPlayer();
+                    } else {
+                        mp.stop();
+                        mp.reset();
+                    }
+
+                    freezePlayButton = true;
+                    mp.setDataSource(this, myUri); // Go to Initialized state
+                    mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mp.setOnPreparedListener(this);
+                    mp.setOnBufferingUpdateListener(this);
+                    mp.setOnErrorListener(this);
+                    mp.prepareAsync();
+
+                    Log.d(TAG, "LoadClip Done");
+                } catch (Throwable t) {
+                    Log.d(TAG, t.toString());
                 }
 
-                mp.setDataSource(this, myUri); // Go to Initialized state
-                mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mp.setOnPreparedListener(this);
-                mp.setOnBufferingUpdateListener(this);
-                mp.setOnErrorListener(this);
-                mp.prepareAsync();
+                isStreamConfigured = true;
+            } else {
 
-                Log.d(TAG, "LoadClip Done");
-            } catch (Throwable t) {
-                Log.d(TAG, t.toString());
-            }
-
-            isStreamConfigured = true;
-        }
-        else
-        {
-
-            if (isPlayingAudio)
-            {
-                isPlayingAudio = false;
-                mp.pause();
-                playPause.setImageResource(R.drawable.play);
-            }
-            else
-            {
-                isPlayingAudio = true;
-                mp.start();
-                playPause.setImageResource(R.drawable.pause);
+                if (isPlayingAudio) {
+                    isPlayingAudio = false;
+                    mp.pause();
+                    playPause.setImageResource(R.drawable.play);
+                } else {
+                    isPlayingAudio = true;
+                    mp.start();
+                    playPause.setImageResource(R.drawable.pause);
+                }
             }
         }
     }
@@ -126,7 +164,9 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
     public void onPrepared(MediaPlayer mp) {
         Log.d(TAG, "Stream is prepared");
         mp.start();
+        mDialog.dismiss();
         isPlayingAudio = true;
+        freezePlayButton = false;
         playPause.setImageResource(R.drawable.pause);
     }
 
@@ -171,6 +211,8 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
         sb.append(" (" + what + ") ");
         sb.append(extra);
         Log.e(TAG, sb.toString());
+        freezePlayButton = false;
+        mDialog.dismiss();
         return true;
     }
 
