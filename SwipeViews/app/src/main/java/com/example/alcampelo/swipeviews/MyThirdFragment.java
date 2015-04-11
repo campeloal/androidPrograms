@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MyFragment extends Fragment{
+public class MyThirdFragment extends Fragment{
 
     int mCurrentPage;
 
@@ -24,13 +24,13 @@ public class MyFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_layout, container,false);
+        View v = inflater.inflate(R.layout.third_fragment_layout, container,false);
         return v;
     }
 
-    public static MyFragment newInstance() {
+    public static MyThirdFragment newInstance() {
 
-        MyFragment f = new MyFragment();
+        MyThirdFragment f = new MyThirdFragment();
         Bundle b = new Bundle();
 
         f.setArguments(b);

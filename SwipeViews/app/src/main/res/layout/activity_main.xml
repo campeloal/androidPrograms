@@ -1,15 +1,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/green">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:id="@+id/text"
-        android:layout_height="wrap_content" />
+    <include
+        android:id="@+id/background"
+        layout="@layout/background"
+        />
+
+    <ImageButton
+        android:id="@+id/exit"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        style="@style/DefaultButton"
+        android:background="?android:selectableItemBackground"
+        android:onClick="exitApp"
+        android:src="@drawable/exit" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
-        android:layout_below="@+id/text"
+        android:layout_below="@+id/exit"
+        android:layout_marginTop="0dp"
         android:layout_width="fill_parent"
         android:layout_height="300dp"
         />

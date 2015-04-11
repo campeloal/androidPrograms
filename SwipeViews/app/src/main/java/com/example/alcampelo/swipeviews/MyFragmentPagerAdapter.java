@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 
-    final int PAGE_COUNT = 5;
+    final int PAGE_COUNT = 4;
 
     /** Constructor of the class */
     public MyFragmentPagerAdapter(FragmentManager fm) {
@@ -18,11 +18,24 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
     @Override
     public Fragment getItem(int arg0) {
 
-        MyFragment myFragment = new MyFragment();
-        Bundle data = new Bundle();
-        data.putInt("current_page", arg0+1);
-        myFragment.setArguments(data);
-        return myFragment;
+//        MyFragment myFragment = new MyFragment();
+//        Bundle data = new Bundle();
+//        data.putInt("current_page", arg0+1);
+//        myFragment.setArguments(data);
+//        return myFragment;
+
+        switch(arg0) {
+            case 0:
+                return MyFragment.newInstance();
+            case 1:
+                return MySecFragment.newInstance();
+            case 2:
+                return MyThirdFragment.newInstance();
+            case 3:
+                return MyFourthFragment.newInstance();
+            default:
+                return MyFragment.newInstance();
+        }
     }
 
     /** Returns the number of pages */

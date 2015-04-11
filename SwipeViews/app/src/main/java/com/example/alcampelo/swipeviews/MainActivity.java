@@ -43,6 +43,17 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
 
     }
 
+    @Override
+    public void onPause(){
+        if (mp != null) {
+            isPlayingAudio = false;
+            mp.pause();
+            playPause.setImageResource(R.drawable.play);
+        }
+        super.onPause();
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,16 +133,20 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mp.stop();
-        isPlayingAudio = false;
-        playPause.setImageResource(R.drawable.play);
+        if (mp != null) {
+            mp.stop();
+            isPlayingAudio = false;
+            playPause.setImageResource(R.drawable.play);
+        }
 
     }
 
     public void onCompletion(MediaPlayer mp) {
-        mp.stop();
-        isPlayingAudio = false;
-        playPause.setImageResource(R.drawable.play);
+        if (mp != null) {
+            mp.stop();
+            isPlayingAudio = false;
+            playPause.setImageResource(R.drawable.play);
+        }
     }
 
     public boolean onError(MediaPlayer mp, int what, int extra) {
@@ -161,5 +176,11 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
 
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
         Log.d(TAG, "PlayerService onBufferingUpdate : " + percent + "%");
+    }
+
+    public void exitApp(View view)
+    {
+        finish();
+       System.exit(0);
     }
 }

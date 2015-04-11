@@ -13,6 +13,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/hd_1" />
+        android:src="@drawable/hd_4" />
 
 </RelativeLayout>
