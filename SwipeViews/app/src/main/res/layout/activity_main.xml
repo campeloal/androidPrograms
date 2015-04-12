@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green">
+    android:background="@color/transparent">
 
     <include
         android:id="@+id/background"
@@ -11,12 +11,28 @@
 
     <ImageButton
         android:id="@+id/exit"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         style="@style/DefaultButton"
         android:background="?android:selectableItemBackground"
         android:onClick="exitApp"
         android:src="@drawable/exit" />
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="200dp"
+        android:textSize="40dp"
+        android:text="@string/temp"/>
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/weather_icon"
+        android:layout_marginTop="20dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="300dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

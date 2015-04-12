@@ -12,12 +12,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ImageButton;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.location.Location;
+import android.location.Criteria;
+import android.location.LocationManager;
+import android.content.Context;
+
+import com.squareup.picasso.Picasso;
+
 
 public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCompletionListener,
-        MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
+        MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener{
 
     private String TAG = getClass().getSimpleName();
     private MediaPlayer mp = null;
@@ -49,7 +57,28 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
         detectPhoneCall();
 
         configureProgressDialog();
+
+        LocationManager lm=(LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        Criteria c=new Criteria();
+        String provider = lm.getBestProvider(c, false);
+
+        Location l=lm.getLastKnownLocation(provider);
+        if(l!=null)
+        {
+            //get latitude and longitude of the location
+            double lng=l.getLongitude();
+            double lat=l.getLatitude();
+
+            QueryWeather qw = new QueryWeather(this,getApplicationContext(),lat,lng);
+            qw.queryWeather();
+        }
+        else
+        {
+            System.out.println("No provider");
+        }
+
     }
+
 
     public void configureProgressDialog(){
         mDialog = new ProgressDialog(this);
