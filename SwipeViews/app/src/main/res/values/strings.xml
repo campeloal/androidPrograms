@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">SwipeViews</string>
-    <string name="url">http://fr3.ah.fm:9000</string>
+    <string name="url2">http://fr3.ah.fm:9000</string>
+    <string name="url">rtsp://rtmp.cdn.upx.net.br/a65b/myStream.sdp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="play">Play</string>
-    <string name="temp">CC</string>
+    <string name="temp"></string>
 </resources>

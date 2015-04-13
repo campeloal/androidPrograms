@@ -20,6 +20,7 @@ public class QueryWeather {
 
     private String QUERY_URL = "http://api.openweathermap.org/data/2.5/weather?";
     private double KELVIN_CONSTANT = 273.15;
+    private String TEMPERATURE_UNIT = "°C";
     public String imageURL = "http://openweathermap.org/img/w/";
     Context context;
     ActionBarActivity activity;
@@ -29,6 +30,7 @@ public class QueryWeather {
         this.context = context;
         this.activity = activity;
         QUERY_URL = QUERY_URL + "lat=" + latitude +"&lon=" + longitude;
+        System.out.println(" ");
     }
 
     public void queryWeather(){
@@ -49,7 +51,7 @@ public class QueryWeather {
                             double temperature = main.getDouble("temp");
                             temperature = temperature - KELVIN_CONSTANT;
                             TextView tempText = (TextView) activity.findViewById(R.id.temperature);
-                            tempText.setText("" + (int) temperature);
+                            tempText.setText("" + (int) temperature + TEMPERATURE_UNIT);
 
                             imageURL = imageURL + icon + ".png";
 

@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="200dp"
+        android:layout_marginLeft="215dp"
         android:textSize="40dp"
         android:text="@string/temp"/>
 

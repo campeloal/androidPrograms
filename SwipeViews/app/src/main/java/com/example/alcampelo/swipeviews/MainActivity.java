@@ -17,23 +17,28 @@ import android.widget.ImageButton;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.Criteria;
 import android.location.LocationManager;
 import android.content.Context;
+import java.util.List;
 
 import com.squareup.picasso.Picasso;
 
 
 public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCompletionListener,
-        MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener{
+        MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener,
+        LocationListener{
 
     private String TAG = getClass().getSimpleName();
     private MediaPlayer mp = null;
     private boolean isPlayingAudio = false;
     private boolean isStreamConfigured = false;
     private boolean freezePlayButton = false;
+    private boolean startedBuffer = false;
     ProgressDialog mDialog;
     ImageButton playPause;
+    LocationManager mLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,25 +63,53 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
 
         configureProgressDialog();
 
-        LocationManager lm=(LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        Criteria c=new Criteria();
-        String provider = lm.getBestProvider(c, false);
+        mLocationManager = (LocationManager)getApplicationContext()
+                .getSystemService(LOCATION_SERVICE);
 
-        Location l=lm.getLastKnownLocation(provider);
+        int oneHour = 36000000;
+
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,oneHour,
+                0, this);
+
+        showWeather();
+
+    }
+
+    public void showWeather() {
+        Location l = getLastKnownLocation();
+
         if(l!=null)
         {
             //get latitude and longitude of the location
             double lng=l.getLongitude();
             double lat=l.getLatitude();
 
+            mLocationManager.removeUpdates(this);
+
             QueryWeather qw = new QueryWeather(this,getApplicationContext(),lat,lng);
             qw.queryWeather();
         }
         else
         {
-            System.out.println("No provider");
+            System.out.println("Enable the fucking provider");
         }
+    }
 
+    private Location getLastKnownLocation() {
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = mLocationManager.getLastKnownLocation(provider);
+
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 
 
@@ -193,9 +226,9 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
     public void onPrepared(MediaPlayer mp) {
         Log.d(TAG, "Stream is prepared");
         mp.start();
-        mDialog.dismiss();
         isPlayingAudio = true;
         freezePlayButton = false;
+        mDialog.dismiss();
         playPause.setImageResource(R.drawable.pause);
     }
 
@@ -241,11 +274,22 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
         sb.append(extra);
         Log.e(TAG, sb.toString());
         freezePlayButton = false;
-        mDialog.dismiss();
         return true;
     }
 
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
+
+        if (!startedBuffer) {
+            mDialog.show();
+            mDialog.setMessage("Buffering Áudio");
+            startedBuffer = true;
+            playPause.setImageResource(R.drawable.play);
+        }
+        else if (percent == 100) {
+            mDialog.dismiss();
+            playPause.setImageResource(R.drawable.pause);
+        }
+
         Log.d(TAG, "PlayerService onBufferingUpdate : " + percent + "%");
     }
 
@@ -253,5 +297,25 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnCom
     {
         finish();
        System.exit(0);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        showWeather();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+           showWeather();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
