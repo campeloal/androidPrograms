@@ -1,9 +1,13 @@
-package com.example.alcampelo.swipeviews;
+package com.example.alcampelo.swipeviews.Adapter;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.example.alcampelo.swipeviews.model.MyFourthFragment;
+import com.example.alcampelo.swipeviews.model.MyFragment;
+import com.example.alcampelo.swipeviews.model.MySecFragment;
+import com.example.alcampelo.swipeviews.model.MyThirdFragment;
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter{
 

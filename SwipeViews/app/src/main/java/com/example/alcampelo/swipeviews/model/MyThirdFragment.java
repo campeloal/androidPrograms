@@ -1,4 +1,4 @@
-package com.example.alcampelo.swipeviews;
+package com.example.alcampelo.swipeviews.model;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MySecFragment extends Fragment{
+import com.example.alcampelo.swipeviews.R;
+
+public class MyThirdFragment extends Fragment{
 
     int mCurrentPage;
 
@@ -24,13 +26,13 @@ public class MySecFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.sec_fragment_layout, container,false);
+        View v = inflater.inflate(R.layout.third_fragment_layout, container,false);
         return v;
     }
 
-    public static MySecFragment newInstance() {
+    public static MyThirdFragment newInstance() {
 
-        MySecFragment f = new MySecFragment();
+        MyThirdFragment f = new MyThirdFragment();
         Bundle b = new Bundle();
 
         f.setArguments(b);

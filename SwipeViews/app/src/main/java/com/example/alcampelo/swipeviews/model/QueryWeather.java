@@ -1,9 +1,10 @@
-package com.example.alcampelo.swipeviews;
+package com.example.alcampelo.swipeviews.model;
 
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.alcampelo.swipeviews.R;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
